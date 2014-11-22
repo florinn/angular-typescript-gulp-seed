@@ -4,11 +4,9 @@ var gulp = require('gulp');
 
 // load plugins
 var $ = require('gulp-load-plugins')();
-var ts = require('gulp-typescript');
-var concat = require('gulp-concat-sourcemap');
-var sourcemaps = require('gulp-sourcemaps');
 var eventStream = require('event-stream');
 var mainBowerFiles = require('main-bower-files');
+var del = require('del');
 
 gulp.task('styles', function () {
     return gulp.src('content/styles/main.css')
@@ -17,7 +15,7 @@ gulp.task('styles', function () {
         .pipe($.size());
 });
 
-var tsProject = ts.createProject({
+var tsProject = $.typescript.createProject({
     declarationFiles: true,
     noExternalResolve: false,
     sortOutput: true
@@ -25,27 +23,27 @@ var tsProject = ts.createProject({
 
 gulp.task('scripts', function () {
     var tsResult = gulp.src('app/**/*.ts')
-                       .pipe(sourcemaps.init()) // This means sourcemaps will be generated
-                       .pipe(ts(tsProject, undefined, ts.reporter.fullReporter(true)));
+                       .pipe($.sourcemaps.init()) // This means sourcemaps will be generated
+                       .pipe($.typescript(tsProject, undefined, $.typescript.reporter.fullReporter(true)));
 
     return eventStream.merge( // Merge the two output streams, so this task is finished when the IO of both operations are done.
         tsResult.dts.pipe(gulp.dest('.tmp/definitions')),
         tsResult.js
-                .pipe(concat('output.js')) // You can use other plugins that also support gulp-sourcemaps
-                .pipe(sourcemaps.write()) // Now the sourcemaps are added to the .js file
+                .pipe($.concatSourcemap('output.js')) // You can use other plugins that also support gulp-sourcemaps
+                .pipe($.sourcemaps.write()) // Now the sourcemaps are added to the .js file
                 .pipe(gulp.dest('.tmp/js'))
     );
 });
 
 gulp.task('html', ['styles', 'scripts'], function () {
-        return gulp.src('app/*.html')
-            .pipe($.useref.assets())
-            .pipe($.if('**/*.js', $.uglify()))
-            .pipe($.if('**/*.css', $.csso()))
-            .pipe($.useref.restore())
-            .pipe($.useref())
-            .pipe(gulp.dest('dist'))
-            .pipe($.size());
+    return gulp.src('app/*.html')
+        .pipe($.useref.assets())
+        .pipe($.if('**/*.js', $.uglify()))
+        .pipe($.if('**/*.css', $.csso()))
+        .pipe($.useref.restore())
+        .pipe($.useref())
+        .pipe(gulp.dest('dist'))
+        .pipe($.size());
 });
 
 gulp.task('images', function () {
@@ -68,17 +66,36 @@ gulp.task('fonts', function () {
 });
 
 gulp.task('extras', function () {
-    return gulp.src(['app/*.*', '!app/*.html'], { dot: true })
+    return gulp.src(['app/*.*', '!app/*.html', '!app/*.ts'], { dot: true })
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('clean', function () {
-    return gulp.src(['.tmp', 'dist'], { read: false }).pipe($.clean());
+gulp.task('clean', function (cb) {
+    del(['.tmp', 'dist'], cb);
 });
+
+gulp.task('test', function () {
+    return test()
+        .on('error', function (e) {
+            throw e;
+        });
+});
+
+function test() {
+    return gulp.src(['test/**/*.test.js'], { read: false })
+        .pipe($.spawnMocha({
+            r: 'test/setup.js',
+            R: 'spec',
+            c: true,
+            inlineDiffs: true,
+            debug: true
+        }))
+        .on('error', console.warn.bind(console));
+}
 
 gulp.task('build', ['html', 'images', 'fonts', 'extras']);
 
-gulp.task('default', ['clean'], function () {
+gulp.task('default', ['clean', 'test'], function () {
     gulp.start('build');
 });
 
@@ -114,7 +131,7 @@ gulp.task('watch', ['serve'], function () {
     ]).pipe($.connect.reload());
 
     gulp.watch('content/styles/**/*.css', ['styles']);
-    gulp.watch('app/**/*.ts', ['scripts']);
+    gulp.watch('app/**/*.ts', ['scripts', 'test']);
     gulp.watch('content/images/**/*', ['images']);
     gulp.watch('bower.json', ['wiredep']);
 });

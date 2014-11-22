@@ -50,13 +50,12 @@ There are two kinds of dependencies in this project: tools and application speci
 
 > ```
 > bower install
-> cd test && bower install
 > ```
 
 You should find that you have some new folders in your project:
 
 * `node_modules` - contains the npm packages for the tools
-* `bower_components` and `test/bower_components` - contains app specific dependencies
+* `bower_components` - contains app specific dependencies
 
 > **Note:** The `bower_components` folder would normally be installed in the root folder but you may change this location through the .bowerrc file.
 
@@ -120,8 +119,6 @@ Directory Layout
 |           main.css
 |           
 \---test
-    |   .bowerrc
-    |   bower.json
     |   index.html
     |   
     \---spec
