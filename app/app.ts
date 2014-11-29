@@ -4,11 +4,11 @@
 *
 * @type {angular.Module}
 */
-module todos {
+module app {
     'use strict';
     var todomvc = angular.module('todomvc', [])
-        .controller('todoCtrl', TodoCtrl)
-        .directive('todoBlur', todoBlur)
-        .directive('todoFocus', todoFocus)
-        .service('todoStorage', TodoStorage);
+        .controller('todoCtrl', todos.TodoCtrl)
+        .directive('todoBlur', todos.todoBlur)
+        .directive('todoFocus', todos.todoFocus)
+        .service('todoStorage', todos.TodoStorage);
 } 
