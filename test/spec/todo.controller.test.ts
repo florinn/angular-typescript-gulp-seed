@@ -26,8 +26,8 @@ describe('Todo controller', () => {
         })
     );
 
+    it('should create itself', () => {
 
-    it('should create itself', (done) => {
         todoCtrl = ctrlCtor(
             'todoCtrl', {
                 $scope: scope,
@@ -38,7 +38,7 @@ describe('Todo controller', () => {
 
         expect(todoCtrl).to.be.not.null;
         expect(typeof scope.newTodo).to.equal('string');
-        done();
+
     });
 
 }); 

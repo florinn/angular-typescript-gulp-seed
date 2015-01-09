@@ -15,9 +15,9 @@
     "typescript",
     "gulp",
     "karma",
-	"mocha",
-	"chai",
-	"sinon"
+    "mocha",
+    "chai",
+    "sinon"
   ],
   "dependencies": {},
   "devDependencies": {
@@ -50,14 +50,17 @@
     "karma": "^0.12.28",
     "karma-chai": "^0.1.0",
     "karma-chai-sinon": "^0.1.4",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-ie-launcher": "^0.1.5",
     "karma-mocha": "^0.1.9",
-    "karma-phantomjs-launcher": "^0.1.4",
     "main-bower-files": "^2.4.0",
     "mocha": "^2.0.1",
     "opn": "^0.1.1",
     "run-sequence": "^1.0.2",
     "sinon": "^1.12.1",
     "sinon-chai": "^2.6.0",
+    "typemoq": "0.0.5",
     "wiredep": "^1.4.3"
   },
   "engines": {

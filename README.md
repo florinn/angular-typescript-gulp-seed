@@ -2,7 +2,7 @@ AngularJS + Typescript + Gulp Seed
 ===================
 
 
-This project is an application skeleton for an AngularJS and Typescript web app.
+This project is an application skeleton for an **AngularJS** and **Typescript** web app.
 
 The seed contains a sample [TodoMVC](https://github.com/tastejs/todomvc/tree/gh-pages/examples/typescript-angular) application, it uses Typescript and its internal module concept, it is preconfigured to install the AngularJS framework and a bunch of development and testing tools.
 
@@ -20,7 +20,7 @@ Please see the [gulpfile.js](https://github.com/florinn/angular-typescript-gulp-
 * CSS autoprefixing
 * Image optimization
 * Wire-up dependencies installed with [Bower](http://bower.io/) (for `gulp watch` or `gulp wiredep`)
-* Testing with [Karma](http://karma-runner.github.io/) and [Mocha](http://mochajs.org/), [Chai](http://chaijs.com/) and [Sinon](http://sinonjs.org/)
+* Testing with [Karma](http://karma-runner.github.io/) and [Mocha](http://mochajs.org/), [Chai](http://chaijs.com/), [Sinon](http://sinonjs.org/) and [TypeMoq](https://github.com/florinn/typemoq)
 * Built-in preview server with livereload
 
 > **Tip:** The project allows you to choose a workflow that fits you best, going either for a code editor (**SublimeText**, **Brackets** etc) and `gulp watch` combo, or for a Typescript aware IDE, or maybe for both at the same time.
@@ -152,14 +152,15 @@ Directory Layout
     |   setup.ts                    // '.h' file for tests with .d.ts refs
     |   
     \---spec                        // folder for any 'bdd' tests (aka specs)
-            todo.controller.test.ts         
+            todo.controller.test.ts
+            todoStorage.service.test.ts         
 ```
 
 
 Testing
 -------------
 
-The project comes preconfigured with unit tests written in **Mocha** using **Chai** assertions and **Sinon** spies, which are run with the **Karma Test Runner** and [PhantomJS](http://phantomjs.org/).
+The project comes preconfigured with unit tests written in **Mocha** using **Chai** assertions and **TypeMoq** spies, which are run with the **Karma Test Runner**.
 
 The easiest way to run the unit tests is:
 
