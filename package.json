@@ -60,7 +60,7 @@
     "run-sequence": "^1.0.2",
     "sinon": "^1.12.1",
     "sinon-chai": "^2.6.0",
-    "typemoq": "0.0.5",
+    "typemoq": "0.0.6",
     "wiredep": "^1.4.3"
   },
   "engines": {
