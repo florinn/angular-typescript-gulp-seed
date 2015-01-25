@@ -22,6 +22,7 @@ gulp.task('scripts:app', function () {
 
 function compileAppScripts() {
 	var tsProject = $.typescript.createProject({
+		target: 'ES5',
 		declarationFiles: true,
 		noExternalResolve: false,
 		sortOutput: true
@@ -107,6 +108,7 @@ gulp.task('test:ci', ['scripts:app'], function () {
 function runTests(isBlocking) {
 	return compileTestScripts()
 		.pipe($.addSrc([
+			'node_modules/typemoq/node_modules/underscore/underscore.js',
 			'node_modules/typemoq/typemoq.js',
 			'node_modules/angular/angular.js',
 			'node_modules/angular-mocks/angular-mocks.js',
@@ -129,6 +131,7 @@ gulp.task('scripts:test', function () {
 
 function compileTestScripts() {
 	var tsProject = $.typescript.createProject({
+		target: 'ES5',
 		declarationFiles: false,
 		noExternalResolve: false,
 		sortOutput: true
